@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd" >
+
+    <!-- 扫描@Controller-->
+    <context:component-scan base-package="club.mecn.controller" />
+	<!-- 	扫描service -->
+	<context:component-scan base-package="club.mecn.service.impl"></context:component-scan>
+	<!-- 	扫描dao -->
+	<context:component-scan base-package="club.mecn.dao.impl"></context:component-scan>
+    <!--mvc:annotation driven 默认注册两个bean-->
+    <mvc:annotation-driven>
+        <!--设置编码为utf-8-->
+
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+
+
+    <bean id="emf"
+          class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+        <!--持久化文件放置的位置-->
+        <property name="persistenceUnitName" value="mecnpu"></property>
+
+    </bean>
+
+    <!-- Add Transaction support -->
+    <bean id="myTxManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="emf" />
+    </bean>
+
+
+    <!-- Use @Transaction annotations for managing transactions -->
+    <tx:annotation-driven transaction-manager="myTxManager" />
+
+    <!--mail sender bean-->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.mecn.club" />
+        <property name="port" value="25" />
+        <property name="username" value="pk@mecn.club" />
+        <property name="password" value="MECNclub005" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+
+
+            </props>
+        </property>
+    </bean>
+
+    <!--视图解析  -->
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass"
+                  value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!-- 文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"></property>
+        <property name="maxUploadSize" value="10485760000"></property>
+        <property name="maxInMemorySize" value="40960"></property>
+    </bean>
+
+</beans>
