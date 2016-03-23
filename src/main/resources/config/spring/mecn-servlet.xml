@@ -35,6 +35,8 @@
     </mvc:annotation-driven>
 
 
+	<!--静态资源 mapping:请求的路径 -->
+	<mvc:resources location="/static/" mapping="/static/**"></mvc:resources>
 
     <bean id="emf"
           class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">

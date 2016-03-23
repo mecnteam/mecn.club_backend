@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by exste on 2016/02/22.
  */
-public class JsonResultUtil {
+public class JsonUtil {
     /**
      * 状态 1成功,-1失败
      */
@@ -95,7 +95,7 @@ public class JsonResultUtil {
      */
     public static Map<String,Object> returnJsonMap(int status, Object data)
     {
-        return JsonResultUtil.returnJsonMap(status,null,data);
+        return JsonUtil.returnJsonMap(status,null,data);
     }
 
     /**
@@ -105,12 +105,12 @@ public class JsonResultUtil {
      */
     public static Map<String,Object> returnJsonMap(int status)
     {
-        return JsonResultUtil.returnJsonMap(status,null,null);
+        return JsonUtil.returnJsonMap(status,null,null);
     }
 
     public static Map<String,Object> returnJsonMap(int status,String message)
     {
-        return JsonResultUtil.returnJsonMap(status,message,null);
+        return JsonUtil.returnJsonMap(status,message,null);
     }
 //    /**
 //     * 返回json数据格式,字符串格式

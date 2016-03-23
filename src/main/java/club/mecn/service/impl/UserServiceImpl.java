@@ -6,7 +6,7 @@ import club.mecn.module.UsedName;
 import club.mecn.module.User;
 import club.mecn.service.UserService;
 import club.mecn.util.EncryptionUtil;
-import club.mecn.util.JsonResultUtil;
+import club.mecn.util.JsonUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,23 +55,23 @@ public class UserServiceImpl implements UserService{
     		{
     			if(this.checkEmailActivated(user))
     			{
-    				return JsonResultUtil.returnJsonMap(JsonResultUtil.SUCCESS_STATUS,100,"登录成功",user);
+    				return JsonUtil.returnJsonMap(JsonUtil.SUCCESS_STATUS,100,"登录成功",user);
     			}
     			else{
     				//not activited
-    				return JsonResultUtil.returnJsonMap(JsonResultUtil.FAIL_STATUS,-103,"邮箱未激活");
+    				return JsonUtil.returnJsonMap(JsonUtil.FAIL_STATUS,-103,"邮箱未激活");
     			}
     			
     		}
     		else{
     			//fail password error
-                return JsonResultUtil.returnJsonMap(JsonResultUtil.FAIL_STATUS,-102,"密码错误");
+                return JsonUtil.returnJsonMap(JsonUtil.FAIL_STATUS,-102,"密码错误");
     		}
     		
     	}
     	else{
     		//no user
-            return JsonResultUtil.returnJsonMap(JsonResultUtil.FAIL_STATUS,-101,"没有此用户");
+            return JsonUtil.returnJsonMap(JsonUtil.FAIL_STATUS,-101,"没有此用户");
     		
     	}
     	
