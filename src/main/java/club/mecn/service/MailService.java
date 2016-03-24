@@ -14,7 +14,7 @@ public interface MailService {
 
     /**
      *
-     * @param to
+     * @param to 注册用户邮箱
      */
     void sendRegisterEmail(String to);
 

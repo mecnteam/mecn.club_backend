@@ -15,7 +15,7 @@ public interface UserService {
      * 用户注册方法
      * @param user 保存的新用户对象
      */
-    void register(User user);
+	Map<String, Object> register(String username,String password,String email);
     
     /**
      * 修改用户基本信息:

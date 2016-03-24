@@ -27,14 +27,33 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserDao userDao;
 
-    
     @Transactional
-    public void register(User user) {
-    	//密码加密
-    	user.setPassword(EncryptionUtil.getHash(user.getPassword()));
-        userDao.save(user);
+    public Map<String, Object> register(String username,String password,String email) {
+    	
+        
+        if(( username.isEmpty() || password.isEmpty() || email.isEmpty()))
+		{
+			return JsonUtil.returnJsonMap(JsonUtil.FAIL_STATUS, -111,"注册信息不完整" );
+		}
+		else if(getByName(username) != null)
+		{
+			return JsonUtil.returnJsonMap(JsonUtil.FAIL_STATUS, -112,"用户名已存在" );
+		}
+		else if(getByEmail(email) != null)
+		{
+			return JsonUtil.returnJsonMap(JsonUtil.FAIL_STATUS, -113,"邮箱已被注册" );
+		}
+		else
+		{
+			User user = new User(username, password, email);
+			//TODO remove active email..
+			user.setActiveEmail(true);
+			user.setPassword(EncryptionUtil.getHash(user.getPassword()));
+			userDao.save(user);			
+			return JsonUtil.returnJsonMap(JsonUtil.SUCCESS_STATUS,"注册成功");
+		}
     }
-
+    
     
     @Transactional
 	public void updateUserBaseInfo(User newUser) {

@@ -22,7 +22,7 @@ public class UserTest {
 	{
 		System.out.println("ADD User!");
 		User u = new User("gamestart","gametarts","gamestart.passwoerds");
-		s.register(u);
+		//s.register(u);
 	}
 	
 	@Test

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import club.mecn.bean.TokenInfo;
 import club.mecn.module.User;
+import club.mecn.service.MailService;
 import club.mecn.service.UserService;
 import club.mecn.util.JsonUtil;
 import club.mecn.util.TokenUtil;
@@ -24,6 +25,8 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private MailService mailService;
 	
 	/**
 	 * 用户登录
@@ -57,20 +60,17 @@ public class UserController {
 			@RequestParam(value = "email",required = true) String email)
 	{
 		
-		if(username.isEmpty() || password.isEmpty() || email.isEmpty())
-		{
-			return JsonUtil.returnJsonMap(JsonUtil.FAIL_STATUS, "注册失败");
+		Map<String,Object> registerResult = userService.register(username, password, email);
+		
+		if(((Integer)registerResult.get(JsonUtil.RETURN_STATUS)) == 1)
+		{			
+			//mailService.sendRegisterEmail(email);
 		}
-		else
-		{
-			
-			User user = new User(username, password, email);
-			user.setActiveEmail(true);
-			userService.register(user);
-			return JsonUtil.returnJsonMap(JsonUtil.SUCCESS_STATUS,"注册成功");
-		}
-	
+		
+		return registerResult;
 	
 	}
+	
+//	public Map<String,Object> checkusernam
 	
 }

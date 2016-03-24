@@ -20,17 +20,29 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao{
     
 
     public User getByName(String name) {
-        Query query = em.createQuery("select u from User u where u.username =:name");
-        query.setParameter("name",name);
-        User user = (User)query.getSingleResult();
-        return user;
+    	try{
+    		
+    		Query query = em.createQuery("select u from User u where u.username =:name");
+    		query.setParameter("name",name);
+    		User user = (User)query.getSingleResult();
+    		return user;
+    	}catch(Exception e)
+    	{
+    		return null;
+    	}
 
     }
 
     public User getByEmail(String email) {
-        Query query = em.createQuery("select u from User u where u.email =:email");
-        query.setParameter("email",email);
-        User user = (User)query.getSingleResult();
-        return user;
+    	try{
+    		Query query = em.createQuery("select u from User u where u.email =:email");
+            query.setParameter("email",email);
+            User user = (User)query.getSingleResult();
+            return user;
+    	}catch(Exception e)
+    	{
+    		return null;
+    	}
+        
     }
 }

@@ -1,6 +1,10 @@
 package club.mecn.module;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Date;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -11,6 +15,7 @@ import java.util.Set;
  *
  * 注册策略，先填邮件和密码，然后发一封邮件，验证，选一个用户名
  */
+@JsonIgnoreProperties({"password"})
 @Entity
 @Table(name="user")
 public class User  implements Serializable{
