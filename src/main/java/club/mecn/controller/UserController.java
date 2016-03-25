@@ -3,9 +3,11 @@ package club.mecn.controller;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,6 +73,32 @@ public class UserController {
 	
 	}
 	
-//	public Map<String,Object> checkusernam
+	@RequestMapping(value = "/checkuser/{username}",method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String,Object> checkUsername(@PathVariable("username") String username)
+	{
+		if(userService.getByName(username) != null)
+		{
+			return JsonUtil.returnJsonMap(JsonUtil.FAIL_STATUS, -112,"用户名已存在" );
+		}else
+		{
+			return JsonUtil.returnJsonMap(JsonUtil.SUCCESS_STATUS);
+		}
+	}
+	
+	@RequestMapping(value = "/checkemail/{email}",method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String,Object> checkEmail(@PathVariable("email") String email)
+	{
+		if(userService.getByEmail(email) != null)
+		{
+			return JsonUtil.returnJsonMap(JsonUtil.FAIL_STATUS, -113,"邮箱已被注册" );
+		}else
+		{
+			return JsonUtil.returnJsonMap(JsonUtil.SUCCESS_STATUS);
+		}
+	}
+	
+	
 	
 }
