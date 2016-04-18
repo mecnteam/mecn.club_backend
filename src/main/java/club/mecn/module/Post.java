@@ -19,6 +19,7 @@ public class Post implements Serializable {
     @Column(name="p_id")
     private Integer postId;
 
+    @Lob
     @Column(name="p_content")
     private String postContent;
 

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.code.kaptcha.servlet.KaptchaExtend;
 
-import club.mecn.extend.KaptchaMecnExtend;
 import club.mecn.util.CaptchaUtil;
 import nl.captcha.Captcha;
 import nl.captcha.Captcha.Builder;

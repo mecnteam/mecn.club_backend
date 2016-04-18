@@ -1,6 +1,8 @@
 package club.mecn.dao.impl;
 
 import club.mecn.dao.BaseDao;
+import club.mecn.module.Category;
+import club.mecn.module.User;
 import club.mecn.util.BeanValueExchangeUtil;
 
 import org.springframework.stereotype.Repository;
@@ -8,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -46,5 +50,6 @@ public class BaseDaoImpl implements BaseDao{
 		
 	}
 
+	
 	
 }

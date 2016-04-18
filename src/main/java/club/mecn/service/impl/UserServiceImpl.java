@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService{
         return followeds.size();
     }
 
-
+    @Transactional
     public void delete(int id) {
         userDao.delete(User.class,id);
     }

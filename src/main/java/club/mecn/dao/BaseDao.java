@@ -42,6 +42,8 @@ public interface BaseDao {
      * @return
      */
     <T> List<T> getAll(String entityClassName);
+    
+    
 //
 //
 //    /**

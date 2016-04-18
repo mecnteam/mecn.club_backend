@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Administrator on 2016/2/2.
@@ -25,16 +27,25 @@ public class ThreadServiceImpl implements ThreadService {
     @Autowired
     private CategoryDao categoryDao;
 
+
     @Transactional
-    public void add(Thread thread,int categoryId) {
-        Category c = categoryDao.getById(Category.class,categoryId);
-        thread.setCategory(c);
+    public void add(Thread thread,String categoryName) {
+    	
+    	Category category = categoryDao.getByName(categoryName);
+    	
+    	if(category == null)
+    	{
+    		category = new Category(categoryName);
+    	}
+    	   	
+    	thread.addCategory(category);
 
         threadDao.save(thread);
     }
 
+    @Transactional
     public void delete(int id) {
-
+    	threadDao.delete(Thread.class, id);
     }
 
     public List<Post> getAllPosts(int threadId) {
@@ -46,4 +57,40 @@ public class ThreadServiceImpl implements ThreadService {
         return posts;
 
     }
+
+	public Thread getById(int id) {
+		
+		return threadDao.getById(Thread.class, id);
+	}
+
+	@Transactional
+	public void updateThreadInfo(Thread newThread) {
+		
+		threadDao.update(newThread, newThread.getThreadId());
+	}
+
+	/* (non-Javadoc)
+	 * @see club.mecn.service.ThreadService#updateCategories(int, java.lang.String[])
+	 */
+	@Transactional
+	public void updateCategories(int threadId ,String[] categorynames) {
+		Thread thread = getById(threadId);
+		HashSet<Category> newCategories = new HashSet<Category>();
+		for(String categoryname : categorynames)
+		{
+			Category category = categoryDao.getByName(categoryname);
+			if(category == null )
+			{
+				category = new Category(categoryname);
+			}
+			newCategories.add(category);
+		}
+		
+		thread.setCategories(newCategories);
+	}
+
+	public List<Thread> getAll() {
+		
+		return threadDao.getAll("Thread");
+	}
 }

@@ -16,6 +16,7 @@ public class Comment implements Serializable {
     @Column(name="c_id")
     private Integer commentId;
 
+    @Lob
     @Column(name="c_content")
     private String commentContent;
 

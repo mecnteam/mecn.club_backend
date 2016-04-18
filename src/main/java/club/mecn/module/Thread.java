@@ -26,6 +26,8 @@ public class Thread implements Serializable {
     @Column(name = "t_title")
     private String threadTitle;
 
+    //大文本
+    @Lob
     @Column(name="t_content")
     private String threadContent;
 
@@ -34,11 +36,11 @@ public class Thread implements Serializable {
     private Date threadTime;
 
 
-    /**
-     * 帖子的标签
-     */
-    @Column(name = "t_tags")
-    private String tags;
+//    /**
+//     * 帖子的标签
+//     */
+//    @Column(name = "t_tags")
+//    private String tags;
     /**
      * 单向一对一
      * 最后的跟帖的用户
@@ -70,21 +72,31 @@ public class Thread implements Serializable {
     private User user;
 
     /**
-     * 主题帖子所属类别
+     * 主题帖子所属类别(多对多)
      */
-    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinColumn(name="t_category_id")
-    private Category category;
+//    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
+//    @JoinColumn(name="t_category_id")
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinTable(name = "category_thread",
+    joinColumns = {@JoinColumn(name = "t_id", referencedColumnName = "t_id")},
+    inverseJoinColumns = {@JoinColumn(name = "cg_id", referencedColumnName ="cg_id")})
+    private Set<Category> categories = new HashSet<Category>();
 
 
-    public Thread(String threadTitle, String threadContent, Date threadTime, String tags) {
+    public Thread(String threadTitle, String threadContent, Date threadTime ) {
         this.threadTitle = threadTitle;
         this.threadContent = threadContent;
         this.threadTime = threadTime;
-        this.tags = tags;
     }
 
-    public Thread() {
+    
+    public Thread(String threadTitle) {
+		
+		this.threadTitle = threadTitle;
+	}
+
+
+	public Thread() {
     }
 
     public Integer getThreadId() {
@@ -135,16 +147,15 @@ public class Thread implements Serializable {
         this.user = user;
     }
 
-    public Category getCategory() {
-        return category;
-    }
+    public Set<Category> getCategories() {
+		return categories;
+	}
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+	public void setCategories(Set<Category> categories) {
+		this.categories = categories;
+	}
 
-
-    public User getLastCommentUser() {
+	public User getLastCommentUser() {
         return lastCommentUser;
     }
 
@@ -160,11 +171,15 @@ public class Thread implements Serializable {
         this.lastPostUser = lastPostUser;
     }
 
-    public String getTags() {
-        return tags;
+    public void addCategory(Category category)
+    {
+    	this.categories.add(category);
     }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
+//    public String getTags() {
+//        return tags;
+//    }
+//
+//    public void setTags(String tags) {
+//        this.tags = tags;
+//    }
 }

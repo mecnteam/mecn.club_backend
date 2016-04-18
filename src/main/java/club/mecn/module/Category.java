@@ -21,8 +21,13 @@ public class Category implements Serializable{
     @Column(name = "cg_name")
     private String categoryName;
 
-    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.REFRESH}
-            ,fetch = FetchType.LAZY ,mappedBy = "category")
+//    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE,CascadeType.REFRESH}
+//            ,fetch = FetchType.LAZY ,mappedBy = "category")
+    
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinTable(name = "category_thread",
+    joinColumns = {@JoinColumn(name = "cg_id", referencedColumnName = "cg_id")},
+    inverseJoinColumns = {@JoinColumn(name = "t_id", referencedColumnName ="t_id")})
     private Set<Thread> threads = new HashSet<Thread>();
 
     public Category() {
@@ -31,8 +36,8 @@ public class Category implements Serializable{
     public Category(String categoryName) {
         this.categoryName = categoryName;
     }
-
-    public Integer getCategoryId() {
+    
+	public Integer getCategoryId() {
         return categoryId;
     }
 
@@ -54,5 +59,14 @@ public class Category implements Serializable{
 
     public void setThreads(Set<Thread> threads) {
         this.threads = threads;
+    }
+    
+    /**
+     * 增加分类下帖子
+     * @param thread
+     */
+    public void addThread(Thread thread)
+    {
+    	this.threads.add(thread);
     }
 }

@@ -17,6 +17,7 @@ public interface CategoryService {
     List<Category> getAll();
 
     Category getById(int id);
+    
     /**
      * 根据id获取所有的值
      * @param id
